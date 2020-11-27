@@ -30,7 +30,7 @@ class _ButtonLoginState extends State<ButtonLogin> {
           borderRadius: BorderRadius.circular(30),
         ),
         child: FlatButton(
-          onPressed: () {},
+          onPressed: ()=>Navigator.pushNamed(context, "home"),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

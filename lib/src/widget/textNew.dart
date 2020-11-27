@@ -21,7 +21,7 @@ class _TextNewState extends State<TextNew> {
             ),
             Center(
               child: Text(
-                'We can start something new',
+                '',
                 style: TextStyle(
                   fontSize: 24,
                   color: Colors.white,

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-class PasswordInput extends StatefulWidget {
-  @override
-  _PasswordInputState createState() => _PasswordInputState();
-}
+class Product extends StatelessWidget {
+  const Product({Key key}) : super(key: key);
 
-class _PasswordInputState extends State<PasswordInput> {
   @override
-  Widget build(BuildContext context) {
+     Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 50, right: 50),
       child: Container(
@@ -17,10 +14,10 @@ class _PasswordInputState extends State<PasswordInput> {
           style: TextStyle(
             color: Colors.white,
           ),
-          obscureText: true,
           decoration: InputDecoration(
             border: InputBorder.none,
-            labelText: 'Contraseña',
+            fillColor: Colors.lightBlueAccent,
+            labelText: 'Producto o Productos',
             labelStyle: TextStyle(
               color: Colors.white70,
             ),

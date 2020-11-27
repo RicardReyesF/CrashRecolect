@@ -19,7 +19,7 @@ class _FirstTimeState extends State<FirstTime> {
         child: Row(
           children: <Widget>[
             Text(
-              'Your first time?',
+              'Aún no tienes cuenta?',
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.white70,
@@ -28,11 +28,10 @@ class _FirstTimeState extends State<FirstTime> {
             FlatButton(
               padding: EdgeInsets.all(0),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => NewUser()));
+                Navigator.pushNamed(context, "typeuser");
               },
               child: Text(
-                'Sing up',
+                'Registrate',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.white,

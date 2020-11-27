@@ -20,7 +20,7 @@ class _NewNomeState extends State<NewNome> {
           decoration: InputDecoration(
             border: InputBorder.none,
             fillColor: Colors.lightBlueAccent,
-            labelText: 'Name',
+            labelText: 'Usuario',
             labelStyle: TextStyle(
               color: Colors.white70,
             ),

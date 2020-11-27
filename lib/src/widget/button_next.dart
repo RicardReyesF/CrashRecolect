@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ButtonNewUser extends StatefulWidget {
+class ButtonNext extends StatefulWidget {
   @override
-  _ButtonNewUserState createState() => _ButtonNewUserState();
+  _ButtonNextState createState() => _ButtonNextState();
 }
 
-class _ButtonNewUserState extends State<ButtonNewUser> {
+class _ButtonNextState extends State<ButtonNext> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,13 +29,13 @@ class _ButtonNewUserState extends State<ButtonNewUser> {
             color: Colors.white, borderRadius: BorderRadius.circular(30)),
         child: FlatButton(
           onPressed: (){
-            Navigator.popAndPushNamed(context, "typeuser");
+            Navigator.popAndPushNamed(context, "home");
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'OK',
+                'Siguiente',
                 style: TextStyle(
                   color: Colors.lightBlueAccent,
                   fontSize: 14,

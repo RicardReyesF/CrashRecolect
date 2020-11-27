@@ -14,7 +14,7 @@ class UserOld extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Text(
-              'Have we met before?',
+              'Ya tienes cuenta?',
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.white70,
@@ -27,7 +27,7 @@ class UserOld extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => LoginPage()));
               },
               child: Text(
-                'Sing in',
+                'Ingresar',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.white,
