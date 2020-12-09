@@ -1,6 +1,7 @@
 
+import 'package:crash_recolect/src/models/product_model.dart';
+import 'package:crash_recolect/src/provider/product_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:circular_check_box/circular_check_box.dart';
 
 class AddProductPage extends StatefulWidget {
   const AddProductPage({Key key}) : super(key: key);
@@ -10,6 +11,9 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
+  final formKey = GlobalKey<FormState>();
+  final productProvider = ProductProvider();
+  Product productModel = new Product();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,20 +21,23 @@ class _AddProductPageState extends State<AddProductPage> {
        children: [
          _fondo(),
          SingleChildScrollView(
-           child: Column(
-           children: [
-             _letras(),
-            _letras1(),
-            _product(),
-             SizedBox(height: 20.0,),
-            _product1(),
-             SizedBox(height: 20.0),
-            _product2(),
-             SizedBox(height: 20.0),
-            _product3(),
+           child: Form(
+             key: formKey,
+             child: Column(
+             children: [
+               _letras(),
+              _letras1(),
+              _product(),
+               SizedBox(height: 20.0,),
+              _product1(),
+               SizedBox(height: 20.0),
+              _product2(),
+               SizedBox(height: 20.0),
+              _product3(),
 
-           ],
-          )
+             ],
+          ),
+           )
          )
        ],
      ),
@@ -219,8 +226,11 @@ class _AddProductPageState extends State<AddProductPage> {
                     Text("Otros",style: TextStyle(fontSize: 15.0,color: Colors.white,fontWeight: FontWeight.w900),),
                     SizedBox(height: 10.0,),
                     GestureDetector(
-                      onTap: (){_textother(context);},
+                      onTap: (){
+                        _textother(context);
+                      },
                       child: Image.asset("assets/otro.png",scale: 7.0,),
+                      
                     )
                   ]
                 )
@@ -245,7 +255,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   padding: EdgeInsets.only(top:20),
                   width: 270.0,
                   height: 75.0,
-                  child: TextField(
+                  child: TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       counterText: "Precio",
@@ -254,9 +264,18 @@ class _AddProductPageState extends State<AddProductPage> {
                             borderRadius: BorderRadius.circular(10.0)
                     ),
                   ),
+                  initialValue: '',
+                  validator: (value){
+                    if(value.length < 0){
+                      return "Ingresa un precio";
+                    }else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value)=> productModel.price=value,
                 ),
               ), 
-               RaisedButton(onPressed: ()=>Navigator.pushNamed(context,'service'),
+               RaisedButton(onPressed: _submit,
                   shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(18.0),
                   side: BorderSide(color: Colors.blueGrey),
@@ -292,7 +311,15 @@ class _AddProductPageState extends State<AddProductPage> {
                   padding: EdgeInsets.only(top:20),
                   width: 270.0,
                   height: 75.0,
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: '',
+                    validator: (value){
+                      if(value.length < 3){
+                        return "Corto";
+                      }else{
+                        return null;
+                      }
+                    },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       counterText: "Nombre del producto",
@@ -301,13 +328,14 @@ class _AddProductPageState extends State<AddProductPage> {
                             borderRadius: BorderRadius.circular(10.0)
                     ),
                   ),
+                  onSaved: (value)=> productModel.nomProduct=value,
                 ),
               ),
               Container(
                   padding: EdgeInsets.only(top:20),
                   width: 270.0,
                   height: 75.0,
-                  child: TextField(
+                  child: TextFormField(
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       counterText: "Precio",
@@ -316,6 +344,15 @@ class _AddProductPageState extends State<AddProductPage> {
                             borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
+                  initialValue: '',
+                  validator: (value){
+                    if(value.length<3){
+                      return "Cadena corta";
+                    }else{
+                      return null;
+                    }
+                  },
+                  onSaved: (value)=>productModel.price=value,
                 ),
               ),
               
@@ -336,5 +373,18 @@ class _AddProductPageState extends State<AddProductPage> {
         ),
       ),
     );
+  }
+
+  void _submit(){
+    if (!formKey.currentState.validate()) return;
+    print('Todo ok');
+    print(productModel.price);
+    String nom = "hello";
+    productModel.nomProduct=nom;
+    productModel.image=nom;
+    formKey.currentState.save();
+   productProvider.crearProduct(productModel);
+   
+   Navigator.popAndPushNamed(context, 'service');
   }
 }

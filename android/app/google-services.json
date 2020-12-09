@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "960590121823",
+    "project_id": "crashrecolect",
+    "storage_bucket": "crashrecolect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960590121823:android:c00119a6002ad1f6c984ea",
+        "android_client_info": {
+          "package_name": "com.example.crash_recolect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960590121823-0p78nlcpk2mnbs6qg2um4a0mticjkp2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ4dmEAXS_6p5c-bgxKkatgNFqrLrS2A8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960590121823-0p78nlcpk2mnbs6qg2um4a0mticjkp2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
