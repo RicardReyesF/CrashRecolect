@@ -33,6 +33,7 @@ dependencies:
   circular_check_box: ^1.0.4
   http:
   firebase_database:
+  mime_type: ^0.3.2
 
 dev_dependencies:
   flutter_test:
