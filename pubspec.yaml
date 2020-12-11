@@ -30,10 +30,10 @@ dependencies:
   cupertino_icons: ^1.0.0
   google_maps_flutter: ^1.0.6
   flutter_swiper: ^1.1.6
-  circular_check_box: ^1.0.4
   http:
   firebase_database:
   mime_type: ^0.3.2
+  image_picker:
 
 dev_dependencies:
   flutter_test:
