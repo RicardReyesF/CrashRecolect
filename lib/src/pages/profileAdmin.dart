@@ -9,7 +9,11 @@ class ProfileAdminPage extends StatefulWidget {
   @override
   _ProfileAdminPageState createState() => _ProfileAdminPageState();
 }
+final formKey = GlobalKey<FormState>();
 File foto;
+String nombre="Nombre de tu empresa";
+String ubicacion="Donde se encuentra";
+
 class _ProfileAdminPageState extends State<ProfileAdminPage> {
   @override
   
@@ -78,10 +82,10 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
               height: 60,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Nombre de tu empresa"
+                  nombre
                   ,style: TextStyle(
                     fontSize: 25.0,
                     color:Colors.black,
@@ -91,17 +95,18 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
                 ),
                 IconButton(
                  icon: Icon(Icons.create_outlined,color: Colors.white),
-                 onPressed: (){})
+                 onPressed: ()=>_nameF()
+                )
               ],
             ),
             SizedBox(
               height: 25,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Donde se encuentra"
+                  ubicacion
                   ,style: TextStyle(
                     fontSize: 18.0,
                     color:Colors.black,
@@ -111,11 +116,11 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
                 ),
                 IconButton(
                   icon: Icon(Icons.create_outlined,color: Colors.white,), 
-                  onPressed: (){}
+                  onPressed: ()=>_location()
                 ),
                 IconButton(
                   icon: Icon(Icons.gps_fixed_outlined,color: Colors.white,), 
-                  onPressed: (){}
+                  onPressed: ()=>Navigator.pushNamed(context, 'location')
                 ),
               ],
             ),
@@ -250,6 +255,132 @@ _mostrarImagen(){
       }
       return Image.asset('assets/no-image.png',fit: BoxFit.cover,width: 120.0,height: 120.0,);
  }
+
+ Future _nameF(){
+      return showDialog(
+        context: context,
+        builder: (context)=>Align(
+        alignment:Alignment.center,
+        child: Container(
+          padding: EdgeInsets.only(top:20,),
+          width: 300.0,
+          height: 180.0,
+          child: Card(
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top:20),
+                    width: 270.0,
+                    height: 75.0,
+                    child: TextFormField(
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                      ),
+                    ),
+                    initialValue: '',
+                    validator: (value){
+                      if(value.length < 0){
+                        return "Demasiado Corto";
+                      }else {
+                        return null;
+                      }
+                    },
+                    onSaved: (value){
+                      setState(() {
+                      nombre=value;
+                      });
+                    },
+                  ),
+                ), 
+                RaisedButton(onPressed: _submit,
+                    shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(18.0),
+                    side: BorderSide(color: Colors.blueGrey),
+                    ),
+                    color: Colors.lightBlueAccent,
+                    child: Text('Agregar',style: TextStyle(
+                      color: Colors.blueGrey
+                    ),
+                  ),
+                )
+               ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      );
+    }
+    Future _location(){
+      return showDialog(
+        context: context,
+        builder: (context)=>Align(
+        alignment:Alignment.center,
+        child: Container(
+          padding: EdgeInsets.only(top:20,),
+          width: 300.0,
+          height: 180.0,
+          child: Card(
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top:20),
+                    width: 270.0,
+                    height: 75.0,
+                    child: TextFormField(
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                      ),
+                    ),
+                    initialValue: '',
+                    validator: (value){
+                      if(value.length < 0){
+                        return "Demasiado Corto";
+                      }else {
+                        return null;
+                      }
+                    },
+                    onSaved: (value){
+                      setState(() {
+                      ubicacion=value;
+                      });
+                    },
+                  ),
+                ), 
+                RaisedButton(onPressed: _submit,
+                    shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(18.0),
+                    side: BorderSide(color: Colors.blueGrey),
+                    ),
+                    color: Colors.lightBlueAccent,
+                    child: Text('Agregar',style: TextStyle(
+                      color: Colors.blueGrey
+                    ),
+                  ),
+                )
+               ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      );
+    }
+
+    void _submit(){
+    if (!formKey.currentState.validate()) return;
+    print('Todo ok');
+    formKey.currentState.save();
+   Navigator.popAndPushNamed(context, 'profile');
+  }
 
   
 }
