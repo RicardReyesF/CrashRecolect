@@ -54,16 +54,26 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
                   height: 200,
                   child: Container(
                     alignment: Alignment(0.0,2.5),
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage(
-                          "assets/no-image.png"
+                      child: GestureDetector(
+                        onTap:_typePhoto,
+                        child: CircleAvatar(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(60.0),
+                            child: _mostrarImagen(),
+                          ),
+                          /*
+                          child: IconButton(
+                            padding: EdgeInsets.only(top:100.0,left: 60.0),
+                            icon: Icon(Icons.camera_alt),
+                            onPressed: _typePhoto
+                          ),
+                          */
+                          radius: 60.0,
+                        ),
                       ),
-                      radius: 60.0,
                     ),
                   ),
                 ),
-                 
-              ),
             SizedBox(
               height: 60,
             ),
@@ -171,58 +181,75 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
   }
 
 
-  _seleccionarFoto() async {
+  void _seleccionarFoto(BuildContext context) async {
 
-    ImagePicker.pickImage(
+    foto =await ImagePicker.pickImage(
       source: ImageSource.gallery);
+      if(foto != null){
+
+      }
+      setState(() {
+        
+      });
 
   }
   
   
-  _tomarFoto() async {
+  void _tomarFoto(BuildContext context) async {
 
-    ImagePicker.pickImage(
+    foto=await ImagePicker.pickImage(
       source: ImageSource.camera);
+       if(foto != null){
+
+      }
+      setState(() {
+        
+      });
 
   }
 
 
-/*
-  Future _typePhoto(){
-   return showDialog(
+
+  Future  _typePhoto(){
+    return showDialog(
       context: context,
-      builder: (context) => Align(
-        alignment:Alignment.center,
-        child: Container(
-          padding: EdgeInsets.only(top:20,),
-          width: 300.0,
-          height: 250.0,
-          child: Column(
+      builder: (BuildContext context) => AlertDialog(
+        title: Text("Desde donde desea cambiar lo imagen"),
+        content: SingleChildScrollView(
+          child: ListBody(
             children: [
-              Container(
-                width: 100.0,
-                height: 150.0,
-                child: GestureDetector(
-                  onTap: _tomarFoto(),
-                  child: Text("Tomar Foto"),
+              GestureDetector(
+                child: Text("Galeria"),
+                onTap: (){_seleccionarFoto(context);},
+              ),
+              Padding(
+                padding: EdgeInsets.all(10.0)
                 ),
-              )
+              GestureDetector(
+                child: Text("Camara"),
+                onTap:(){_tomarFoto(context);},
+              ),
+              
+              
             ],
           ),
-        ),
-      ),
+        ),      
+      )
     );
   }
-  */
- Widget _mostrarFoto() {
-      return Image(
+  
+  
+_mostrarImagen(){
+   if( foto != null ){
+        return Image.file(
+          foto,
+          fit: BoxFit.cover,
+          width: 120.0,
+          height: 120.0,
+        );
+      }
+      return Image.asset('assets/no-image.png',fit: BoxFit.cover,width: 120.0,height: 120.0,);
+ }
 
-        image: AssetImage( foto?.path ?? 'assets/no-image.png'),
-        height: 300.0,
-        fit: BoxFit.cover,
-
-      );
-
-    }
   
 }
