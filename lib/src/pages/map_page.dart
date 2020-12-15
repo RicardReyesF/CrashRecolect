@@ -1,14 +1,20 @@
 import 'dart:async';
 
+import 'package:crash_recolect/src/models/profile_model.dart';
+import 'package:crash_recolect/src/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPage extends StatefulWidget {
   @override
   _MapPageState createState() => _MapPageState();
+  
 }
 
 class _MapPageState extends State<MapPage> {
+  final profileProvider= ProfileProvider();
+  Profile profileModel=Profile();
+  List<Marker> _mymarker=[];
   CameraPosition _initialPosition = CameraPosition(target: LatLng(26.8206, 30.8025));
 Completer<GoogleMapController> _controller = Completer();
 void _onMapCreated(GoogleMapController controller) {
@@ -26,7 +32,10 @@ void _onMapCreated(GoogleMapController controller) {
       children: [
         GoogleMap(
           initialCameraPosition: _initialPosition,
-          onMapCreated: _onMapCreated,  
+          onMapCreated: _onMapCreated, 
+           myLocationEnabled: true,
+           padding: EdgeInsets.only(top: 100.0,),
+           myLocationButtonEnabled: true,
         ),
       ],
     );  

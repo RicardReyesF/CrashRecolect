@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:crash_recolect/src/models/profile_model.dart';
+import 'package:crash_recolect/src/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,6 +15,8 @@ final formKey = GlobalKey<FormState>();
 File foto;
 String nombre="Nombre de tu empresa";
 String ubicacion="Donde se encuentra";
+final profileProvider= ProfileProvider();
+Profile profileModel=Profile();
 
 class _ProfileAdminPageState extends State<ProfileAdminPage> {
   @override
@@ -120,7 +124,7 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
                 ),
                 IconButton(
                   icon: Icon(Icons.gps_fixed_outlined,color: Colors.white,), 
-                  onPressed: ()=>Navigator.pushNamed(context, 'location')
+                  onPressed: ()=>Navigator.pushNamed(context,'location',arguments:profileModel)
                 ),
               ],
             ),
@@ -138,8 +142,7 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
               children: [
                 RaisedButton(
                   color: Colors.blueGrey,
-                  onPressed: (){
-                  },
+                  onPressed: ()=>_submit1(),
                   shape:  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0),
                   ),
@@ -159,8 +162,7 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
                   ),
                 RaisedButton(
                   color: Colors.blueGrey,
-                  onPressed: (){
-                  },
+                  onPressed: ()=>Navigator.pushNamed(context,'login'),
                   shape:  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0),
                   ),
@@ -292,6 +294,7 @@ _mostrarImagen(){
                     onSaved: (value){
                       setState(() {
                       nombre=value;
+                      profileModel.nom=value;
                       });
                     },
                   ),
@@ -351,6 +354,7 @@ _mostrarImagen(){
                     onSaved: (value){
                       setState(() {
                       ubicacion=value;
+                      profileModel.location=value;
                       });
                     },
                   ),
@@ -379,8 +383,22 @@ _mostrarImagen(){
     if (!formKey.currentState.validate()) return;
     print('Todo ok');
     formKey.currentState.save();
+    print(profileModel.nom);
+    print(profileModel.location);
+
+
    Navigator.popAndPushNamed(context, 'profile');
   }
 
-  
+  void _submit1(){
+/*
+    if (!formKey.currentState.validate()) {
+    print('Todo ok');
+    formKey.currentState.save();
+    */
+    profileProvider.crearProfile(profileModel);
+    print(profileModel.location);
+    print(profileModel.nom);
+    print(profileModel.geo);
+  }
 }
