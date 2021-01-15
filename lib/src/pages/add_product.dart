@@ -1,6 +1,7 @@
 
 import 'package:crash_recolect/src/models/product_model.dart';
 import 'package:crash_recolect/src/provider/product_provider.dart';
+import 'package:crash_recolect/src/widget/navigatioBar.dart';
 import 'package:flutter/material.dart';
 
 class AddProductPage extends StatefulWidget {
@@ -387,7 +388,7 @@ class _AddProductPageState extends State<AddProductPage> {
     formKey.currentState.save();
    productProvider.crearProduct(productModel);
    
-   Navigator.popAndPushNamed(context, 'service');
+   Navigator.popAndPushNamed(context,'homeadm');
   }
 
   void _submit1(){
@@ -396,6 +397,6 @@ class _AddProductPageState extends State<AddProductPage> {
     formKey.currentState.save();
    productProvider.crearProduct(productModel);
    
-   Navigator.popAndPushNamed(context, 'service');
+   Navigator.popAndPushNamed(context, 'homeadm');
   }
 }

@@ -216,7 +216,7 @@ class _MyServicePageState extends State<MyServicePage> {
     print(productModel.id);
    productProvider.editarProduct(productModel);
    
-   Navigator.popAndPushNamed(context, 'service');
+   Navigator.popAndPushNamed(context, 'homeadm');
   }
 
 }

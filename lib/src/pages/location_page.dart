@@ -18,6 +18,10 @@ class _LocationPageState extends State<LocationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Profile equiData=ModalRoute.of(context).settings.arguments;
+    if (equiData != null) {
+      profileModel = equiData;
+    }
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -61,7 +65,7 @@ class _LocationPageState extends State<LocationPage> {
       final value = tappedPoint.toString();
       final newtappedPoint = value.replaceAll("LatLng", "").replaceAll("(", "").replaceAll(" ", "").replaceAll(")", "");
       print("value: $newtappedPoint");
-      profileModel.location=newtappedPoint;
+      profileModel.geo=newtappedPoint;
       print(profileModel.geo);
     }
 }

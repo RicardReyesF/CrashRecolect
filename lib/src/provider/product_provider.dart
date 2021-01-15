@@ -29,6 +29,7 @@ class ProductProvider{
 
     final Map<String,dynamic> decodedData = json.decode(resp.body);
 
+    print (decodedData);
     final List<Product> producto = new List();
 
     if (decodedData == null) return [];

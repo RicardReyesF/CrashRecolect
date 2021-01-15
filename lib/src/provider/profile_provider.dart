@@ -104,4 +104,36 @@ class ProfileProvider{
 
 
   }
+  Future<Map<String,dynamic>> cargarPhoto() async {
+    final url ='$_url/profile.json';
+
+    final resp = await http.get(url);
+
+    final Map<String,dynamic> decodedData = json.decode(resp.body);
+    
+    print (decodedData);
+
+    return decodedData['image'];
+    
+    /*
+    final List<Profile> profile = new List();
+
+    if (decodedData == null) return [];
+
+    decodedData.forEach((id,pro) { 
+
+      final proTemp= Profile.fromJson(pro);
+      proTemp.id= id;
+
+      profile.add(proTemp);
+
+    });
+
+    print(profile);
+
+    return profile;
+    */
+  }
+  
+  
 }

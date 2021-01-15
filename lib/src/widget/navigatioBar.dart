@@ -1,27 +1,20 @@
-
-
+import 'package:crash_recolect/src/pages/home_page.dart';
 import 'package:crash_recolect/src/pages/map_page.dart';
 import 'package:crash_recolect/src/pages/view_page.dart';
-import 'package:crash_recolect/src/widget/navigatioBar.dart';
 import 'package:flutter/material.dart';
 
-
-class HomePage extends StatefulWidget {
+class NavigationBar extends StatefulWidget { 
   @override
-  _HomePageState createState() => _HomePageState();
+  _NavigationBarState createState() => _NavigationBarState();
 }
 
-class _HomePageState extends State<HomePage> {
- int currentIndex=0;
+class _NavigationBarState extends State<NavigationBar> {
   @override
+  int currentIndex=0;
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NavigationBar()
-    );
-  }
-}
-/*
-body: _callPage(currentIndex),
+    
+      return Scaffold(
       bottomNavigationBar: _navigationBar(),
     );
   }
@@ -57,4 +50,4 @@ body: _callPage(currentIndex),
       default: return HomePage();
     }
   }
-  */
+}

@@ -11,6 +11,7 @@ class ProfileAdminPage extends StatefulWidget {
   @override
   _ProfileAdminPageState createState() => _ProfileAdminPageState();
 }
+
 final formKey = GlobalKey<FormState>();
 File foto;
 String nombre="Nombre de tu empresa";
@@ -22,6 +23,10 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
   @override
   
   Widget build(BuildContext context) {
+    final Profile equiData=ModalRoute.of(context).settings.arguments;
+    if (equiData != null) {
+      profileModel = equiData;
+    }
     return Scaffold(
       body: Stack(
         children: [
@@ -247,15 +252,21 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
   
   
 _mostrarImagen(){
-   if( foto != null ){
-        return Image.file(
-          foto,
+   if( profileModel.image != null ){
+        return FadeInImage(
+        image: NetworkImage(profileProvider.cargarPhoto().toString()),
+        placeholder: AssetImage('assets/jar-loading.gif'),
+        fit:BoxFit.cover,
+        width: 120.0,
+        height: 120.0
+      );
+      }else{
+        return Image(
+          image: AssetImage(foto?.path ?? 'assets/no-image.png'),
           fit: BoxFit.cover,
-          width: 120.0,
-          height: 120.0,
-        );
+          width: 120.0,height: 120.0,);
       }
-      return Image.asset('assets/no-image.png',fit: BoxFit.cover,width: 120.0,height: 120.0,);
+      
  }
 
  Future _nameF(){
@@ -379,10 +390,13 @@ _mostrarImagen(){
       );
     }
 
-    void _submit(){
+    void _submit() async {
     if (!formKey.currentState.validate()) return;
     print('Todo ok');
     formKey.currentState.save();
+    if ( foto != null ) {
+      profileModel.image = await profileProvider.subirImagen(foto);
+    }
     print(profileModel.nom);
     print(profileModel.location);
 
@@ -401,4 +415,5 @@ _mostrarImagen(){
     print(profileModel.nom);
     print(profileModel.geo);
   }
+    
 }
