@@ -261,12 +261,21 @@ _mostrarImagen(){
         height: 120.0
       );
       }else{
-        return Image(
-          image: AssetImage(foto?.path ?? 'assets/no-image.png'),
+        if(foto !=null){
+          return Image.file(
+          foto,
+          fit: BoxFit.cover,
+          width: 120.0,height: 120.0
+        );
+        }
+        return Image.asset("assets/no-image.png");
+        
+      }
+/*
+          image: AssetImage(foto?.path ?? ''),
           fit: BoxFit.cover,
           width: 120.0,height: 120.0,);
-      }
-      
+  */    
  }
 
  Future _nameF(){

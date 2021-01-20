@@ -1,4 +1,4 @@
-import 'package:crash_recolect/src/pages/newuser.page.dart';
+import 'package:crash_recolect/src/pages/vendedor_page.dart';
 import 'package:flutter/material.dart';
 
 

@@ -3,6 +3,8 @@
 
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 Profile profileFromJson(String str) => Profile.fromJson(json.decode(str));
 
 String profileToJson(Profile data) => json.encode(data.toJson());
@@ -37,4 +39,20 @@ class Profile {
         "location": location,
         "geo": geo,
     };
+
+  LatLng getLonLat(){
+    if(geo != null){
+
+      final lonlat=geo.split(",");
+        final lat=double.parse(lonlat[0]);
+        final long =double.parse(lonlat[1]);
+        return LatLng(lat,long);
+    
+    }else{
+
+        final double lat=19.0015415;
+        final double long=-91.51551;
+        return LatLng(lat,long);
+    }
+  }
 }

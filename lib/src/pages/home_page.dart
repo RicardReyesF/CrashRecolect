@@ -16,15 +16,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NavigationBar()
-    );
-  }
-}
-/*
-body: _callPage(currentIndex),
+      body: _callPage(currentIndex),
       bottomNavigationBar: _navigationBar(),
     );
   }
+
+
+
+
 
   Widget _navigationBar(){
      return BottomNavigationBar(
@@ -52,9 +51,9 @@ body: _callPage(currentIndex),
 
   Widget _callPage(int paginaActual){
     switch(paginaActual){
-      case 0: return MapPage();
-      case 1: return ViewPage();
+      case 0: return ViewPage();
+      case 1: return MapPage();
       default: return HomePage();
     }
   }
-  */
+}

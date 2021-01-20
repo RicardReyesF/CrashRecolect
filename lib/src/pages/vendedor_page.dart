@@ -1,19 +1,19 @@
-import 'package:crash_recolect/src/models/comprador_model.dart';
-import 'package:crash_recolect/src/provider/compradores_provider.dart';
+import 'package:crash_recolect/src/models/user_model.dart';
+import 'package:crash_recolect/src/provider/user_provider.dart';
 import 'package:crash_recolect/src/widget/singup.dart';
 import 'package:crash_recolect/src/widget/textNew.dart';
 import 'package:crash_recolect/src/widget/userOld.dart';
 import 'package:flutter/material.dart';
 
 
-class NewUserC extends StatefulWidget {
+class NewUserV extends StatefulWidget {
   @override
-  _NewUserCState createState() => _NewUserCState();
+  _NewUserVState createState() => _NewUserVState();
 }
 
-class _NewUserCState extends State<NewUserC> {
-  CompradorModel compradorModel= CompradorModel();
-  final compradorProvider = new CompradorProvider();
+class _NewUserVState extends State<NewUserV> {
+  UserModel userModel= new UserModel();
+  final userProvider =  UserProvider();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -27,21 +27,24 @@ class _NewUserCState extends State<NewUserC> {
         ),
         child: ListView(
           children: <Widget>[
-             Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    SingUp(),
-                    TextNew(),
-                  ],
-                ),
-                _nombreEmpresa(),
-                _newEmail(),
-                _passwordInput(),
-                _buttonNext(),
-                UserOld(),
-              ],
+             Form(
+               key: formKey,
+               child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SingUp(),
+                      TextNew(),
+                    ],
+                  ),
+                  _nombreEmpresa(),
+                  _newEmail(),
+                  _passwordInput(),
+                  _buttonNext(),
+                  UserOld(),
+                ],
             ),
+             ),
           ],
         ),
       ),
@@ -49,9 +52,7 @@ class _NewUserCState extends State<NewUserC> {
   }
 
   Widget _nombreEmpresa(){
-    return Form(
-          key: formKey,
-          child: Padding(
+    return Padding(
         padding: const EdgeInsets.only(top: 50, left: 50, right: 50),
           child: Container(
             height: 60,
@@ -65,11 +66,7 @@ class _NewUserCState extends State<NewUserC> {
                 return null;
               }
             },
-            onSaved: (value){
-              setState(() {
-                compradorModel.user=value;
-              });
-            } ,
+            onSaved: (value)=>userModel.nom=value,
 
               style: TextStyle(
                 color: Colors.white,
@@ -84,7 +81,6 @@ class _NewUserCState extends State<NewUserC> {
               ),
             ),
           ),
-      ),
     );
   }
   Widget _newEmail(){
@@ -102,11 +98,7 @@ class _NewUserCState extends State<NewUserC> {
                 return null;
               }
             },
-            onSaved: (value){
-              setState(() {
-                compradorModel.correo=value;
-              });
-            },
+            onSaved: (value)=> userModel.correo=value,
             style: TextStyle(
               color: Colors.white,
             ),
@@ -128,7 +120,6 @@ class _NewUserCState extends State<NewUserC> {
         child: Container(
           height: 60,
           width: MediaQuery.of(context).size.width,
-          child: Form(
             child: TextFormField(
               initialValue: '',
               validator: (value){
@@ -138,11 +129,8 @@ class _NewUserCState extends State<NewUserC> {
                   return null;
                 }
               },
-              onSaved: (value){
-                setState(() {
-                  compradorModel.password=value;
-                });
-              },
+              onSaved: (value)=> userModel.password = value,
+              
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -156,8 +144,6 @@ class _NewUserCState extends State<NewUserC> {
               ),
             ),
           ),
-        ),
-
     );
   }
   Widget _buttonNext(){
@@ -182,6 +168,7 @@ class _NewUserCState extends State<NewUserC> {
             color: Colors.white, borderRadius: BorderRadius.circular(30)),
         child: FlatButton(
           onPressed: (){
+            userModel.role="user";
             _submit();
           },
           child: Row(
@@ -207,14 +194,17 @@ class _NewUserCState extends State<NewUserC> {
   }
 
   void _submit(){
-    if (!formKey.currentState.validate()) {
+    if (!formKey.currentState.validate()) return;
     print('Todo ok');
     formKey.currentState.save();
-    }
-    print(compradorModel.user);
-    print(compradorModel.correo);
-    print(compradorModel.password);
-    compradorProvider.crearComprador(compradorModel);
+    
+    userProvider.crearUser(userModel);
+    print(userModel.nom);
+    print(userModel.correo);
+    print(userModel.password);
+    
     Navigator.popAndPushNamed(context, "login");
-  }
+    }
+    
+  
 }

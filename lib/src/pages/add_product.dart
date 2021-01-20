@@ -1,7 +1,7 @@
 
 import 'package:crash_recolect/src/models/product_model.dart';
 import 'package:crash_recolect/src/provider/product_provider.dart';
-import 'package:crash_recolect/src/widget/navigatioBar.dart';
+
 import 'package:flutter/material.dart';
 
 class AddProductPage extends StatefulWidget {
