@@ -3,6 +3,7 @@ import 'package:crash_recolect/src/widget/textLogin.dart';
 import 'package:crash_recolect/src/widget/verticalText.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +14,8 @@ class LoginPage extends StatefulWidget {
  String email="";
 final formKey = GlobalKey<FormState>();
 final databaseReference = FirebaseDatabase.instance.reference();
+FirebaseUser currentUser=FirebaseAuth.instance.currentUser;
+String uID=currentUser.uid;
 
 class _LoginPageState extends State<LoginPage> {
   @override
@@ -159,14 +162,17 @@ class _LoginPageState extends State<LoginPage> {
     if (!formKey.currentState.validate()) return;
     print('Todo ok');
     formKey.currentState.save();
-    databaseReference.child('User').once().then((DataSnapshot snapshot) {
+    databaseReference.child('User').child(uID).once().then((DataSnapshot snapshot) {
+      /*
       String role = snapshot.value['role'];
       String correo = snapshot.value['correo'];
       String password = snapshot.value['password'];
       print(role);
       print(correo);
       print(password);
-      if (role=="admin" && email==correo && pass== password) {
+      */
+      String role = snapshot.value['role'];
+      if (role=="admin") {
           Navigator.pushReplacementNamed(context,"homeadm");
         }else{
           if(role=="user"){

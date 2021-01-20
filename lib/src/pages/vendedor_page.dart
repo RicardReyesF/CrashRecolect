@@ -1,4 +1,5 @@
 import 'package:crash_recolect/src/models/user_model.dart';
+import 'package:crash_recolect/src/provider/user_Auth.dart';
 import 'package:crash_recolect/src/provider/user_provider.dart';
 import 'package:crash_recolect/src/widget/singup.dart';
 import 'package:crash_recolect/src/widget/textNew.dart';
@@ -14,6 +15,7 @@ class NewUserV extends StatefulWidget {
 class _NewUserVState extends State<NewUserV> {
   UserModel userModel= new UserModel();
   final userProvider =  UserProvider();
+  final userAuthProvider = UsuarioAuth();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -199,6 +201,7 @@ class _NewUserVState extends State<NewUserV> {
     formKey.currentState.save();
     
     userProvider.crearUser(userModel);
+    userAuthProvider.nuevoUser(userModel.correo, userModel.password);
     print(userModel.nom);
     print(userModel.correo);
     print(userModel.password);
