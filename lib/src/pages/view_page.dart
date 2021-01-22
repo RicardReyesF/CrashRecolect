@@ -158,7 +158,7 @@ class _ViewPageState extends State<ViewPage> {
     final User user = await firebaseAuth.currentUser;
      String uID=user.uid;
      FirebaseDatabase.instance.reference().child('notificacion').child('$id').set({
-      'status': true,
+      'status': 'true',
       'mensaje': "Hola podrias venir a por producto :)",
       'geo': geo,
       'uID': uID       

@@ -2,6 +2,7 @@
 
 import 'package:crash_recolect/src/models/notificacion_model.dart';
 import 'package:crash_recolect/src/pages/ViewProfileAdmin.dart';
+import 'package:crash_recolect/src/pages/login.page.dart';
 import 'package:crash_recolect/src/pages/my_service.dart';
 import 'package:crash_recolect/src/pages/map_page.dart';
 import 'package:crash_recolect/src/pages/profileAdmin.dart';
@@ -19,6 +20,8 @@ class HomePageAdm extends StatefulWidget {
     NotificacionesModel notiModel = new NotificacionesModel();
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   UserCredential user; 
+
+  
 class _HomePageAdmState extends State<HomePageAdm> {
   final scaffoldKey =GlobalKey<ScaffoldState>();
  int currentIndex=0;
@@ -62,6 +65,7 @@ class _HomePageAdmState extends State<HomePageAdm> {
   }
 
   Widget _callPage(int paginaActual){
+    _fab();
     switch(paginaActual){
       case 0: return MapPage();
       case 1: return MyServicePage();
@@ -70,21 +74,32 @@ class _HomePageAdmState extends State<HomePageAdm> {
     }
   }
 
-  Widget _fab(){
-    return FutureBuilder(
-      future:noti.cargarNoti(),
-      builder: (BuildContext context, AsyncSnapshot<List<NotificacionesModel>> snapshot){
-        if(!snapshot.hasData){
-          return FloatingActionButton(
-            onPressed: ()=>_alert(context),
-            heroTag: 'alert',
-          );
+ Widget _fab()  {
+   return FutureBuilder(
+     future: _llamar(),
+     builder: (BuildContext context, AsyncSnapshot snapshot){
+       if(snapshot.hasData){
+         return FloatingActionButton(
+           onPressed:()=> _alert(context),
+           backgroundColor: Colors.red,
+           child: Icon(Icons.add_alert_rounded),
+           heroTag: 'alert'
+         );
+       }else{
+         return Container(width: 0.0,height: 0.0,);
         }
-        return null;
       }
     );
-
   }
+
+   _llamar() async{
+    final User user = await firebaseAuth.currentUser;
+     String uID=user.uid;
+     FirebaseDatabase.instance.reference().child('notificacion').child(uID).once();
+     print(uID);
+  }
+
+  
   void _alert(BuildContext context) async {
     final User user = await firebaseAuth.currentUser;
      String uID=user.uid;
@@ -151,6 +166,8 @@ class _HomePageAdmState extends State<HomePageAdm> {
   }
 
   void _eliminar(){
-    FirebaseDatabase.instance.reference().child('notificacionU').child('${notiModel.id}').remove();
+    FirebaseDatabase.instance.reference().child('notificacionU').child('${notiModel.id}').set({
+      'status':'false'
+    });
   }
 }
