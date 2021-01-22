@@ -1,6 +1,8 @@
 
 import 'package:crash_recolect/src/models/product_model.dart';
 import 'package:crash_recolect/src/provider/product_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter/material.dart';
 
@@ -15,8 +17,11 @@ class _AddProductPageState extends State<AddProductPage> {
   final formKey = GlobalKey<FormState>();
   final productProvider = ProductProvider();
   Product productModel = new Product();
+   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  UserCredential user;
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
      body: Stack(
        children: [
@@ -399,4 +404,22 @@ class _AddProductPageState extends State<AddProductPage> {
    
    Navigator.popAndPushNamed(context, 'homeadm');
   }
+
+   Future _autenticar()async {
+     if (!formKey.currentState.validate()) return;
+    print('Todo ok');
+    formKey.currentState.save();
+     final User user = await firebaseAuth.currentUser;
+     String uID=user.uid;
+     FirebaseDatabase.instance.reference().child('User').child(uID).child('product').set({
+      'image': productModel.image,
+      'nom_product': productModel.nomProduct,
+      'price': productModel.price       
+     });
+  }
+
+
 }
+
+
+  

@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:crash_recolect/src/models/profile_model.dart';
+import 'package:crash_recolect/src/pages/ViewProfileAdmin.dart';
 import 'package:crash_recolect/src/provider/profile_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -18,6 +21,8 @@ String nombre="Nombre de tu empresa";
 String ubicacion="Donde se encuentra";
 final profileProvider= ProfileProvider();
 Profile profileModel=Profile();
+final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+UserCredential user;
 
 class _ProfileAdminPageState extends State<ProfileAdminPage> {
   @override
@@ -27,9 +32,11 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
     if (equiData != null) {
       profileModel = equiData;
     }
+  
     return Scaffold(
       body: Stack(
         children: [
+          
           _fondo(),
           _body()
         ],
@@ -94,7 +101,7 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  nombre
+                  "${profileModel.nom}"
                   ,style: TextStyle(
                     fontSize: 25.0,
                     color:Colors.black,
@@ -115,7 +122,7 @@ class _ProfileAdminPageState extends State<ProfileAdminPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  ubicacion
+                  "${profileModel.location}"
                   ,style: TextStyle(
                     fontSize: 18.0,
                     color:Colors.black,
@@ -303,7 +310,7 @@ _mostrarImagen(){
                               borderRadius: BorderRadius.circular(10.0)
                       ),
                     ),
-                    initialValue: '',
+                    initialValue: profileModel.nom,
                     validator: (value){
                       if(value.length < 0){
                         return "Demasiado Corto";
@@ -363,7 +370,7 @@ _mostrarImagen(){
                               borderRadius: BorderRadius.circular(10.0)
                       ),
                     ),
-                    initialValue: '',
+                    initialValue: profileModel.location,
                     validator: (value){
                       if(value.length < 0){
                         return "Demasiado Corto";
@@ -373,7 +380,7 @@ _mostrarImagen(){
                     },
                     onSaved: (value){
                       setState(() {
-                      ubicacion=value;
+                      profileModel.location=value;
                       profileModel.location=value;
                       });
                     },
@@ -410,19 +417,33 @@ _mostrarImagen(){
     print(profileModel.location);
 
 
-   Navigator.popAndPushNamed(context, 'profile');
+   Navigator.popAndPushNamed(context, 'profileedit');
   }
 
-  void _submit1(){
+  void _submit1() async {
 /*
     if (!formKey.currentState.validate()) {
     print('Todo ok');
     formKey.currentState.save();
     */
-    profileProvider.crearProfile(profileModel);
-    print(profileModel.location);
-    print(profileModel.nom);
-    print(profileModel.geo);
+    if ( foto != null ) {
+      profileModel.image = await profileProvider.subirImagen(foto);
+    }
+    final User user = await firebaseAuth.currentUser;
+     String uID=user.uid;
+     FirebaseDatabase.instance.reference().child('User').child(uID).child('profile').set({
+      'geo': profileModel.geo,
+      'image': profileModel.image,
+      'location': profileModel.location, 
+      'nom': profileModel.nom      
+     });
+     FirebaseDatabase.instance.reference().child('profile').child(uID).set({
+      'geo': profileModel.geo,
+      'image': profileModel.image,
+      'location': profileModel.location, 
+      'nom': profileModel.nom      
+     });
+     Navigator.popAndPushNamed(context,'homeadm');
   }
     
 }

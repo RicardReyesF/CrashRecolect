@@ -1,9 +1,12 @@
 import 'package:crash_recolect/src/models/user_model.dart';
+import 'package:crash_recolect/src/pages/login.page.dart';
 import 'package:crash_recolect/src/provider/user_Auth.dart';
 import 'package:crash_recolect/src/provider/user_provider.dart';
 import 'package:crash_recolect/src/widget/singup.dart';
 import 'package:crash_recolect/src/widget/textNew.dart';
 import 'package:crash_recolect/src/widget/userOld.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 
@@ -200,13 +203,23 @@ class _NewUserVState extends State<NewUserV> {
     print('Todo ok');
     formKey.currentState.save();
     
-    userProvider.crearUser(userModel);
-    userAuthProvider.nuevoUser(userModel.correo, userModel.password);
-    print(userModel.nom);
-    print(userModel.correo);
-    print(userModel.password);
-    
-    Navigator.popAndPushNamed(context, "login");
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: userModel.correo,
+      password: userModel.password,
+    )
+        .then((UserCredential uc) {
+      FirebaseDatabase.instance
+          .reference()
+          .child('User')
+          .child(uc.user.uid)
+          .set(
+        {"role": userModel.role,
+        "correo": userModel.correo,
+        "password": userModel.password},
+      );
+    });
+      Navigator.of(context).popUntil(ModalRoute.withName('login'));
     }
     
   

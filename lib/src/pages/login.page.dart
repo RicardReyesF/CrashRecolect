@@ -1,3 +1,4 @@
+import 'package:crash_recolect/src/provider/user_Auth.dart';
 import 'package:crash_recolect/src/widget/first.dart';
 import 'package:crash_recolect/src/widget/textLogin.dart';
 import 'package:crash_recolect/src/widget/verticalText.dart';
@@ -12,10 +13,11 @@ class LoginPage extends StatefulWidget {
 }
  String pass="";
  String email="";
-final formKey = GlobalKey<FormState>();
+GlobalKey<FormState> formKey = GlobalKey<FormState>();
+final userAuthProvider = UsuarioAuth();
 final databaseReference = FirebaseDatabase.instance.reference();
 FirebaseUser currentUser=FirebaseAuth.instance.currentUser;
-String uID=currentUser.uid;
+String uID=currentUser.tenantId;
 
 class _LoginPageState extends State<LoginPage> {
   @override
@@ -59,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
         height: 60,
         width: MediaQuery.of(context).size.width,
         child: TextFormField(
+          keyboardType: TextInputType.emailAddress,
           style: TextStyle(
             color: Colors.white,
           ),
@@ -162,25 +165,28 @@ class _LoginPageState extends State<LoginPage> {
     if (!formKey.currentState.validate()) return;
     print('Todo ok');
     formKey.currentState.save();
-    databaseReference.child('User').child(uID).once().then((DataSnapshot snapshot) {
-      /*
-      String role = snapshot.value['role'];
-      String correo = snapshot.value['correo'];
-      String password = snapshot.value['password'];
-      print(role);
-      print(correo);
-      print(password);
-      */
-      String role = snapshot.value['role'];
-      if (role=="admin") {
-          Navigator.pushReplacementNamed(context,"homeadm");
-        }else{
-          if(role=="user"){
-          Navigator.pushReplacementNamed(context,"home");  
-          }
-        }
-      print(snapshot.value);
-      print(snapshot.key);
-    });
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: pass)
+        .then((UserCredential u) {
+      FirebaseDatabase.instance
+          .reference()
+          .child('User')
+          .child(u.user.uid)
+          .once()
+          .then((DataSnapshot data) {
+           String role= data.value['role'];
+           //String correo= data.value['correo'];
+           //String passw= data.value['password'];
+           if(role=='admin'){ 
+              Navigator.pushReplacementNamed(context, 'homeadm');
+           } else{
+             if(role=='user')
+              Navigator.pushReplacementNamed(context, 'home');
+           }
+          });
+        });
   }
 }
+
+
+  

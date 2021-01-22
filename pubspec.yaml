@@ -35,6 +35,8 @@ dependencies:
   mime_type: ^0.3.2
   image_picker:
   firebase_auth:
+  firebase_core:
+  firebase_messaging:
 
 dev_dependencies:
   flutter_test:

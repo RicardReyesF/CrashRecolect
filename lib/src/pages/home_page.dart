@@ -3,6 +3,7 @@
 import 'package:crash_recolect/src/pages/map_page.dart';
 import 'package:crash_recolect/src/pages/view_page.dart';
 import 'package:crash_recolect/src/widget/navigatioBar.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 
@@ -55,5 +56,8 @@ class _HomePageState extends State<HomePage> {
       case 1: return MapPage();
       default: return HomePage();
     }
+
   }
+
+  
 }

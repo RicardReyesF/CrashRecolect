@@ -28,7 +28,7 @@ class _LocationPageState extends State<LocationPage> {
           IconButton(
             icon: Icon(Icons.arrow_back),
             padding: EdgeInsets.only(right: 370.0),
-            onPressed:()=> Navigator.pushNamed(context,'profile',arguments: profileModel) 
+            onPressed:()=> Navigator.pushNamed(context,'profileedit',arguments: profileModel) 
             ),
         ],
       ),
