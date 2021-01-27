@@ -122,6 +122,9 @@ class _HomePageAdmState extends State<HomePageAdm> {
       barrierDismissible: true,
       context: context,
       builder: (context){
+        if(notiModel.mensaje==null){
+          notiModel.mensaje="No tienes Mensajes";
+        }
         return Hero(
           tag: 'alert',
           child: AlertDialog(

@@ -392,7 +392,7 @@ class _AddProductPageState extends State<AddProductPage> {
     print('Todo ok');
     formKey.currentState.save();
    productProvider.crearProduct(productModel);
-   
+   productProvider.crearProduct2(productModel);
    Navigator.popAndPushNamed(context,'homeadm');
   }
 
@@ -401,6 +401,7 @@ class _AddProductPageState extends State<AddProductPage> {
     print('Todo ok');
     formKey.currentState.save();
    productProvider.crearProduct(productModel);
+   productProvider.crearProduct2(productModel);
    
    Navigator.popAndPushNamed(context, 'homeadm');
   }
@@ -416,6 +417,7 @@ class _AddProductPageState extends State<AddProductPage> {
       'nom_product': productModel.nomProduct,
       'price': productModel.price       
      });
+     
   }
 
 

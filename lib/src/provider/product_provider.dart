@@ -27,6 +27,20 @@ class ProductProvider{
     return true;
   }
 
+    Future<bool> crearProduct2( Product productModel) async {
+    final User user = await firebaseAuth.currentUser;
+     String uID=user.uid;
+    final url ='$_url/product/$uID.json';
+
+    final resp = await http.post(url,body: productToJson(productModel));
+
+    final decodedData = json.decode(resp.body);
+
+    print(decodedData);
+
+    return true;
+  }
+
   Future<List<Product>> cargarProducto() async {
     final User user = await firebaseAuth.currentUser;
      String uID=user.uid;
@@ -55,6 +69,32 @@ class ProductProvider{
     return producto;
   }
 
+
+   Future<List<Product>> cargarProductoT(String id) async {
+    final url ='$_url/product/$id.json';
+
+    final resp = await http.get(url);
+
+    final Map<String,dynamic> decodedData = json.decode(resp.body);
+
+    print (decodedData);
+    final List<Product> producto = new List();
+
+    if (decodedData == null) return [];
+
+    decodedData.forEach((id,pro) { 
+
+      final proTemp= Product.fromJson(pro);
+      proTemp.id= id;
+
+      producto.add(proTemp);
+
+    });
+
+    print(producto);
+
+    return producto;
+  }
   Future<int> borrarPro(String id) async {
     final url ='$_url/productos/$id.json';
 

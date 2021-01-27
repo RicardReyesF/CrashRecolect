@@ -1,6 +1,7 @@
 import 'package:crash_recolect/src/models/product_model.dart';
 import 'package:crash_recolect/src/models/profile_model.dart';
 import 'package:crash_recolect/src/pages/profileAdmin.dart';
+import 'package:crash_recolect/src/provider/product_provider.dart';
 import 'package:crash_recolect/src/provider/profile_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,7 +14,9 @@ class ViewPage extends StatefulWidget {
   @override
   _ViewPageState createState() => _ViewPageState();
   final profileProvider = new ProfileProvider();
+  final productProvider = new ProductProvider();
   Profile profileModel= Profile();
+  Product productModel= Product();
   
     
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -76,8 +79,10 @@ class _ViewPageState extends State<ViewPage> {
       child: Column(
         children: [
           ClipRRect(
-
                 child: FadeInImage(
+                  fit: BoxFit.cover,
+                  height: 220.0,
+                  width: double.infinity,
                   placeholder: AssetImage("assets/no-image.png"),
                   image: NetworkImage(profileModel.image)
                 ),
@@ -206,28 +211,43 @@ class _ViewPageState extends State<ViewPage> {
       barrierDismissible: true,
       context: context,
       builder: (context){
-        return FutureBuilder(
-          future: FirebaseDatabase.instance.reference().child('User').child('product').child('$id').once(),
-          builder: (BuildContext context,snapshot){
-            if(snapshot.hasData){
-              final product=snapshot.data;
-              return ListView.builder(
-                itemBuilder: (BuildContext context,int i){
-                  return ListTile(
-                    title:Text(
-                    snapshot.data.snapshot.value.toString())
-                  );
-                }
-                
+        return AlertDialog(
+            content: FutureBuilder(
+            future: ProductProvider().cargarProductoT(id),
+            builder: (BuildContext contex,AsyncSnapshot <List<Product>>snapshot){
+              if(snapshot.hasData){
+               final product=snapshot.data;
+                return ListView.builder(
+                  itemCount: product.length,
+                  itemBuilder: (context,int i)=> _crearItem2(product[i], context)
+                    
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          });
+            }),
+        );
       }
     );
   }
+
+  _crearItem2(Product productModel,BuildContext context){
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+                 title:Text(
+                    productModel.nomProduct
+                 ),
+                    subtitle: Text(
+                      productModel.price
+                    ),
+              ),
+      ],
+    );
+                  }
+
 
  
 }

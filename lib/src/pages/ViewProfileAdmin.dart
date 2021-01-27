@@ -44,7 +44,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
           FutureBuilder(
           future: _uID(),
           builder: (BuildContext context , AsyncSnapshot snapshot){
-            if(snapshot.hasData){
+            if(!snapshot.hasData){
               return _body();
             }
               return _body1();
@@ -67,6 +67,10 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
   }
 
   Widget _body(){
+    if(profileModel.nom==null){
+      profileModel.nom='Nombre de tu negocio';
+      profileModel.location='Localizacion de tu negocio';
+    }
       _uID();
   return SafeArea(
         child: Column(      
@@ -174,7 +178,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
                   ),
                 RaisedButton(
                   color: Colors.blueGrey,
-                  onPressed: ()=>Navigator.pushNamed(context,'login'),
+                  onPressed: ()=>_cerrarSesion(),
                   shape:  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0),
                   ),
@@ -383,6 +387,11 @@ _mostrarImagen(){
        print(profileModel.nom);
        print(profileModel.location);
      });
+  }
+
+  _cerrarSesion() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushNamed(context,'login');
   }
    
 }

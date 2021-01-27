@@ -37,7 +37,15 @@ class _ViewProfileUserPageState extends State<ViewProfileUserPage> {
         children: [
           
           _fondo(),
-          _body()
+          
+          FutureBuilder(
+          future: _uID(),
+          builder: (BuildContext context , AsyncSnapshot snapshot){
+            if(!snapshot.hasData){
+              return _body();
+            }
+              return _body1();
+          })
         ],
       ),
     );
@@ -56,6 +64,9 @@ class _ViewProfileUserPageState extends State<ViewProfileUserPage> {
   }
 
   Widget _body(){
+    if(profileModel.nom==null){
+      profileModel.nom='Cual es tu nombre';
+    }
   _uID();
   return SafeArea(
         child: Column(      

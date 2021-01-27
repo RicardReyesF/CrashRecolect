@@ -175,13 +175,45 @@ class _LoginPageState extends State<LoginPage> {
           .once()
           .then((DataSnapshot data) {
            String role= data.value['role'];
+           String mail=data.value['correo'];
+           String contra=data.value['password'];
            //String correo= data.value['correo'];
            //String passw= data.value['password'];
-           if(role=='admin'){ 
+           if(role=='admin'&& mail==email && contra==pass ){ 
               Navigator.pushReplacementNamed(context, 'homeadm');
            } else{
-             if(role=='user')
+              showDialog(
+               context: context,
+               builder: (context){
+                 return AlertDialog(
+                   title: Text('Correo o contraseña incorrecta'),
+                   content: Text('Ingresa los datos correctos'),
+                   actions: [
+                     FlatButton(
+                     onPressed: ()=>Navigator.of(context).pop(), 
+                     child: Text('Ok'))
+                   ],
+                 );
+               }
+              );
+           }
+             if(role=='user'&& mail==email && contra==pass){
               Navigator.pushReplacementNamed(context, 'home');
+           }else{
+             showDialog(
+               context: context,
+               builder: (context){
+                 return AlertDialog(
+                   title: Text('Correo o contraseña incorrecta'),
+                   content: Text('Ingresa los datos correctos'),
+                   actions: [
+                     FlatButton(
+                     onPressed: ()=>Navigator.of(context).pop(), 
+                     child: Text('Ok'))
+                   ],
+                 );
+               }
+              );
            }
           });
         });
