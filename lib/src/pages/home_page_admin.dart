@@ -2,10 +2,10 @@
 
 import 'package:crash_recolect/src/models/notificacion_model.dart';
 import 'package:crash_recolect/src/pages/ViewProfileAdmin.dart';
-import 'package:crash_recolect/src/pages/login.page.dart';
+
 import 'package:crash_recolect/src/pages/my_service.dart';
 import 'package:crash_recolect/src/pages/map_page.dart';
-import 'package:crash_recolect/src/pages/profileAdmin.dart';
+
 import 'package:crash_recolect/src/provider/push_noti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -16,8 +16,9 @@ class HomePageAdm extends StatefulWidget {
   @override
   _HomePageAdmState createState() => _HomePageAdmState();
 }
-    final noti= NotificacionProvider(); 
-    NotificacionesModel notiModel = new NotificacionesModel();
+    final noti=  new NotificacionProvider(); 
+    NotificacionesModel notiModel =  NotificacionesModel();
+    
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   UserCredential user; 
 
@@ -84,19 +85,19 @@ class _HomePageAdmState extends State<HomePageAdm> {
            backgroundColor: Colors.red,
            child: Icon(Icons.add_alert_rounded),
            heroTag: 'alert'
+         ); 
+       }
+         return Container(width: 0.0,height: 0.0
+
          );
-       }else{
-         return Container(width: 0.0,height: 0.0,);
         }
-      }
     );
   }
 
-   _llamar() async{
+   Future _llamar() async{
     final User user = await firebaseAuth.currentUser;
      String uID=user.uid;
-     FirebaseDatabase.instance.reference().child('notificacion').child(uID).once();
-     print(uID);
+     return FirebaseDatabase.instance.reference().child('notificacion').child(uID).once();   
   }
 
   
@@ -112,6 +113,9 @@ class _HomePageAdmState extends State<HomePageAdm> {
            notiModel.mensaje = snapshot.value['mensaje'];
            notiModel.uID=snapshot.value['uID'];
            notiModel.id=snapshot.value['id'];
+           notiModel.geo=snapshot.value['geo'];
+          
+           print(notiModel.id);
           });
 
     showDialog(
@@ -133,7 +137,7 @@ class _HomePageAdmState extends State<HomePageAdm> {
                       child: Text("Cancelar")
                     ),
                     FlatButton(
-                      onPressed: ()=>{},
+                      onPressed: ()=>Navigator.pushNamed(context,'ruta',arguments: notiModel),
                       child: Text("Navegar")
                     ),
                     
@@ -147,7 +151,7 @@ class _HomePageAdmState extends State<HomePageAdm> {
     );
   }
 
-  Future _noti2() async {
+  void _noti2() async {
     FirebaseDatabase.instance.reference().child('notificacionU').child('${notiModel.uID}').set({
       'status': 'true',
       'mensaje': "Lo siento sera para la proxima :(",      
@@ -165,9 +169,9 @@ class _HomePageAdmState extends State<HomePageAdm> {
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
-  void _eliminar(){
-    FirebaseDatabase.instance.reference().child('notificacionU').child('${notiModel.id}').set({
-      'status':'false'
-    });
+  void _eliminar()async {
+    final User user = await firebaseAuth.currentUser;
+     String uID=user.uid;
+    FirebaseDatabase.instance.reference().child('notificacion').child(uID).remove();
   }
 }

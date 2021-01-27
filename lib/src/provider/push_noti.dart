@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:crash_recolect/src/models/notificacion_model.dart';
-import 'package:crash_recolect/src/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 

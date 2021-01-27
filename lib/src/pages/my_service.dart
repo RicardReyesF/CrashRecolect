@@ -33,6 +33,7 @@ class _MyServicePageState extends State<MyServicePage> {
          )
      ],
     ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     floatingActionButton: _fab(context),
   );
 }

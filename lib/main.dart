@@ -1,4 +1,5 @@
 import 'package:crash_recolect/src/pages/ViewProfileAdmin.dart';
+import 'package:crash_recolect/src/pages/ViewProfileUser.dart';
 import 'package:crash_recolect/src/pages/add_product.dart';
 import 'package:crash_recolect/src/pages/location_page.dart';
 import 'package:crash_recolect/src/pages/my_service.dart';
@@ -8,6 +9,8 @@ import 'package:crash_recolect/src/pages/map_page.dart';
 import 'package:crash_recolect/src/pages/home_page.dart';
 import 'package:crash_recolect/src/pages/login.page.dart';
 import 'package:crash_recolect/src/pages/profileAdmin.dart';
+import 'package:crash_recolect/src/pages/profileUser.dart';
+import 'package:crash_recolect/src/pages/ruta_page.dart';
 import 'package:crash_recolect/src/pages/type_user.dart';
 import 'package:crash_recolect/src/pages/vendedor_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,6 +38,10 @@ class MyApp extends StatelessWidget {
         'location' : (BuildContext context) => LocationPage(),
         'profile'  : (BuildContext context) => ViewProfileAdminPage(),
         'profileedit'  : (BuildContext context) => ProfileAdminPage(),
+        'ruta'  : (BuildContext context) => Rutapage(),
+        'profileUser': (BuildContext context) => ViewProfileUserPage(),
+        'profileeditUser'  : (BuildContext context) => ProfileUserPage()
+
       },
       debugShowCheckedModeBanner: false,      
     );

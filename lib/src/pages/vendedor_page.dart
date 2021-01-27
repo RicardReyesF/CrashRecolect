@@ -79,7 +79,7 @@ class _NewUserVState extends State<NewUserV> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 fillColor: Colors.lightBlueAccent,
-                labelText: 'Nombre de la empresa',
+                labelText: 'Nombre',
                 labelStyle: TextStyle(
                   color: Colors.white70,
                 ),

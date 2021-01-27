@@ -1,18 +1,17 @@
 import 'dart:io';
 
 import 'package:crash_recolect/src/models/profile_model.dart';
-import 'package:crash_recolect/src/pages/login.page.dart';
 import 'package:crash_recolect/src/provider/profile_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ViewProfileAdminPage extends StatefulWidget {
-  const ViewProfileAdminPage({Key key}) : super(key: key);
+class ViewProfileUserPage extends StatefulWidget {
+  const ViewProfileUserPage({Key key}) : super(key: key);
 
   @override
-  _ViewProfileAdminPageState createState() => _ViewProfileAdminPageState();
+  _ViewProfileUserPageState createState() => _ViewProfileUserPageState();
 }
 
 final formKey = GlobalKey<FormState>();
@@ -24,12 +23,9 @@ Profile profileModel=Profile();
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 UserCredential user;
 
-
-
-class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
-
-
+class _ViewProfileUserPageState extends State<ViewProfileUserPage> {
   @override
+  
   Widget build(BuildContext context) {
     final Profile equiData=ModalRoute.of(context).settings.arguments;
     if (equiData != null) {
@@ -41,14 +37,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
         children: [
           
           _fondo(),
-          FutureBuilder(
-          future: _uID(),
-          builder: (BuildContext context , AsyncSnapshot snapshot){
-            if(snapshot.hasData){
-              return _body();
-            }
-              return _body1();
-          })
+          _body()
         ],
       ),
     );
@@ -67,7 +56,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
   }
 
   Widget _body(){
-      _uID();
+  _uID();
   return SafeArea(
         child: Column(      
           children: [
@@ -104,7 +93,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
                   ),
                 ),
             SizedBox(
-              height: 60,
+              height: 90,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +111,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
             ),
             SizedBox(
               height: 25,
-            ),
+            ),/*
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -140,6 +129,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
                   onPressed: ()=>Navigator.pushReplacementNamed(context,'mapview'))
               ],
             ),
+            */
             SizedBox(
               height: 10,
             ),
@@ -154,7 +144,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
               children: [
                 RaisedButton(
                   color: Colors.blueGrey,
-                  onPressed: ()=>Navigator.pushReplacementNamed(context,'profileedit',arguments: profileModel),
+                  onPressed: ()=>Navigator.pushReplacementNamed(context,'profileeditUser',arguments: profileModel),
                   shape:  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0),
                   ),
@@ -197,11 +187,10 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
             ],
           ),
         );
-    
   }
 
   Widget _body1(){
-      
+  _uID();
   return SafeArea(
         child: Column(      
           children: [
@@ -238,13 +227,13 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
                   ),
                 ),
             SizedBox(
-              height: 60,
+              height: 90,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Nombre del negocio"
+                  "${profileModel.nom}"
                   ,style: TextStyle(
                     fontSize: 25.0,
                     color:Colors.black,
@@ -256,12 +245,12 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
             ),
             SizedBox(
               height: 25,
-            ),
+            ),/*
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "¿Donde se encuentra?"
+                  "${profileModel.location}"
                   ,style: TextStyle(
                     fontSize: 18.0,
                     color:Colors.black,
@@ -274,6 +263,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
                   onPressed: ()=>Navigator.pushReplacementNamed(context,'mapview'))
               ],
             ),
+            */
             SizedBox(
               height: 10,
             ),
@@ -288,7 +278,7 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
               children: [
                 RaisedButton(
                   color: Colors.blueGrey,
-                  onPressed: ()=>Navigator.pushReplacementNamed(context,'profileedit',arguments: profileModel),
+                  onPressed: ()=>Navigator.pushReplacementNamed(context,'profileeditUser',arguments: profileModel),
                   shape:  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0),
                   ),
@@ -331,7 +321,6 @@ class _ViewProfileAdminPageState extends State<ViewProfileAdminPage> {
             ],
           ),
         );
-    
   }
 
 
@@ -369,10 +358,10 @@ _mostrarImagen(){
   
 
   _uID() async  {
-     final User user = await firebaseAuth.currentUser;
+    final User user = await firebaseAuth.currentUser;
      String uID=user.uid;
      
-     return FirebaseDatabase.instance.reference().child('User').child(uID).child('profile').once().then((DataSnapshot snapshot){ 
+     FirebaseDatabase.instance.reference().child('User').child(uID).child('profile').once().then((DataSnapshot snapshot){ 
        
         profileModel.image = snapshot.value['image'];
         profileModel.geo=snapshot.value['geo'];
@@ -384,5 +373,5 @@ _mostrarImagen(){
        print(profileModel.location);
      });
   }
-   
+    
 }
